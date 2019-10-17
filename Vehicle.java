@@ -9,7 +9,7 @@ public class Vehicle {
 	private int distanceTraveled;	// TODO add variable for OdometerReading (in KM), 
 	private int tankCapacity;       // TODO add variable for TankCapacity (in litres)
                
-	private FuelPurchase	fuelPurchase;
+	private FuelPurchase fuelPurchase;
 
 	/**
 	 * Class constructor specifying name of make (manufacturer), model and year
@@ -38,8 +38,11 @@ public class Vehicle {
 	 * Prints details for {@link Vehicle}
 	 */
 	public void printDetails() {
-		System.out.println("Vehicle: " + makeYear + " " + manufacturer + " " + model);		
-                // TODO Display additional information about this vehicle
+		System.out.println("Vehicle: \n" + makeYear + " " +
+		 manufacturer + " " + model + "\n Registration: " +
+		 regoNumb + "\n Tank Capacity: " + TankCapacity +
+		 "\n Odometer Reading: " + distanceTraveled);		
+        // TODO Display additional information about this vehicle
 	}
 
         
