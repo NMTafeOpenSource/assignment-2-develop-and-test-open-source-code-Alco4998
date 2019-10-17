@@ -21,7 +21,10 @@ public class Vehicle {
  	   @param distanceTraveled
  	   @param tankCapacity
 	 */
-	public Vehicle(String manufacturer, String model, int makeYear, String regoNumb, int distanceTraveled, int tankCapacity) {
+	public Vehicle(String manufacturer, String model, int makeYear, 
+		String regoNumb, int distanceTraveled, int tankCapacity) 
+
+	{
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.makeYear = makeYear;
