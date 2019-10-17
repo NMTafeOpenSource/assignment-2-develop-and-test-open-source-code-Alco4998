@@ -5,9 +5,9 @@ public class Service {
     // Constant to indicate that the vehicle needs to be serviced every 10,000km
     public static final int SERVICE_KILOMETER_LIMIT = 10000;
     
-    private int lastServiceOdometerKm=0;
-    private int serviceCount=0;
-    // TODO add lastServiceDate
+    private int lastServiceOdometerKm = 0;
+    private int serviceCount = 0 ;
+    private int lastServiceDate;        // TODO add lastServiceDate
     
     // return the last service
     public int getLastServiceOdometerKm()

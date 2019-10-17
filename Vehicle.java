@@ -5,9 +5,9 @@ public class Vehicle {
 	private String	manufacturer;
 	private String	model;
 	private int	makeYear;
-        // TODO add Registration Number 
-        // TODO add variable for OdometerReading (in KM), 
-        // TODO add variable for TankCapacity (in litres)
+	private String regoNumb; 		// TODO add Registration Number 
+	private int distanceTraveled;	// TODO add variable for OdometerReading (in KM), 
+	private int tankCapacity;       // TODO add variable for TankCapacity (in litres)
                
 	private FuelPurchase	fuelPurchase;
 
