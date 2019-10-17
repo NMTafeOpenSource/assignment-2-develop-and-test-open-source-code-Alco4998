@@ -45,9 +45,16 @@ public class Vehicle {
         // TODO Display additional information about this vehicle
 	}
 
-        
-        // TODO Create an addKilometers method which takes a parameter for distance travelled 
+		//Adds Distanec
+	public void AddDistanece(int distance) 
+	{
+		// TODO Create an addKilometers method which takes a parameter for distance travelled 
         // and adds it to the odometer reading. 
+
+		distanceTraveled = distance + distanceTraveled
+	}
+        
+        
 
         // adds fuel to the car
         public void addFuel(double litres, double price){            
