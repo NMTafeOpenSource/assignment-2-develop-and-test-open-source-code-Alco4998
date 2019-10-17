@@ -14,15 +14,22 @@ public class Vehicle {
 	/**
 	 * Class constructor specifying name of make (manufacturer), model and year
 	 * of make.
-	 * @param manufacturer
-	 * @param model
-	 * @param makeYear
+	   @param manufacturer
+	   @param model
+ 	   @param makeYear
+ 	   @param regoNumb
+ 	   @param distanceTraveled
+ 	   @param tankCapacity
 	 */
-	public Vehicle(String manufacturer, String model, int makeYear) {
+	public Vehicle(String manufacturer, String model, int makeYear, String regoNumb, int distanceTraveled, int tankCapacity) {
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.makeYear = makeYear;
 		fuelPurchase = new FuelPurchase();
+		this.regoNumb = regoNumb;
+		this.distanceTraveled = distanceTraveled;
+		this.tankCapacity = tankCapacity;
+
 	}
 
         // TODO Add missing getter and setter methods
