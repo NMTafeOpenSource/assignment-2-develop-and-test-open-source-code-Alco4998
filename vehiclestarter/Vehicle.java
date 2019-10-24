@@ -1,5 +1,4 @@
 package vehiclestarter;
-
  
 public class Vehicle {
 	private String	manufacturer;
@@ -8,7 +7,6 @@ public class Vehicle {
 	private String regoNumb; 		// TODO add Registration Number 
 	private int distanceTraveled;	// TODO add variable for OdometerReading (in KM), 
 	private int tankCapacity;       // TODO add variable for TankCapacity (in litres)
-               
 	private FuelPurchase fuelPurchase;
 
 	/**
@@ -43,7 +41,7 @@ public class Vehicle {
 	public void printDetails() {
 		System.out.println("Vehicle: \n" + makeYear + " " +
 		 manufacturer + " " + model + "\n Registration: " +
-		 regoNumb + "\n Tank Capacity: " + TankCapacity +
+		 regoNumb + "\n Tank Capacity: " + tankCapacity +
 		 "\n Odometer Reading: " + distanceTraveled);		
         // TODO Display additional information about this vehicle
 	}
@@ -54,7 +52,7 @@ public class Vehicle {
 		// TODO Create an addKilometers method which takes a parameter for distance travelled 
         // and adds it to the odometer reading. 
 
-		distanceTraveled = distance + distanceTraveled
+		distanceTraveled = distance + distanceTraveled;
 	}
         
         
