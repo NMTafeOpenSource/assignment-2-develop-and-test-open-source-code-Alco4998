@@ -1,0 +1,14 @@
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\bin\Debug\Assesment 1.exe
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\bin\Debug\Assesment 1.pdb
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1.csprojAssemblyReference.cache
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\MainWindow.g.cs
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\App.g.cs
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1_MarkupCompile.cache
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1_MarkupCompile.lref
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\MainWindow.baml
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1.g.resources
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment_1.Properties.Resources.resources
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1.csproj.GenerateResource.cache
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1.csproj.CoreCompileInputs.cache
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1.exe
+C:\Users\alexj\source\repos\Assesment 1\Assesment 1\obj\Debug\Assesment 1.pdb
