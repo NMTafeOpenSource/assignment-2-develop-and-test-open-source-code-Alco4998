@@ -1,0 +1,39 @@
+﻿
+Vehicle
+ID
+Make/Manufacturer
+Model
+Year
+Registration#
+Odometer
+
+Services
+ID (linked to Vehicle)
+Vehicle ID (linked to Vehicle)
+Serviced at
+Service ODO
+
+Fuel Purchases
+ID (linked to Vehicle)
+Vehicle ID (linked to Vehicle)
+Amount (litres)
+Price ($/litre)
+Rental ID
+
+Rentals
+ID (linked to Fuel Purchases)
+Vehicle ID (linked to Vehicle)
+Start ODO
+End ODO
+Start Date
+End Date
+Rental Type
+
+Presumptions
+1 Journey And rentals are Combined
+2 Rentals have a start and end date
+3 Rentals have start and end odometer
+4 Fuel Purchases are Rewareded everytime Vehicle Refueled
+5 Vehicle ODO is updated after Every rental
+6 Rental Type can be be D(per day) K(per KM)
+7 Minimum Rental/Day is 1 Day
