@@ -6,3 +6,18 @@
 .vs/Assesment 1/v15/Server/sqlite3/storage.ide-wal
 Assesment 1/bin/Debug/Assesment 1.exe
 Assesment 1/bin/Debug/Assesment 1.pdb
+Assesment 1/obj/Debug/Assesment 1.csproj.CoreCompileInputs.cache
+Assesment 1/obj/Debug/Assesment 1.csproj.FileListAbsolute.txt
+Assesment 1/obj/Debug/Assesment 1.csproj.GenerateResource.cache
+Assesment 1/obj/Debug/Assesment 1.exe
+Assesment 1/obj/Debug/Assesment 1.g.resources
+Assesment 1/obj/Debug/Assesment 1.pdb
+Assesment 1/obj/Debug/Assesment 1_MarkupCompile.cache
+Assesment 1/obj/Debug/Assesment 1_MarkupCompile.lref
+Assesment 1/obj/Debug/MainWindow.baml
+Assesment 1/obj/Debug/MainWindow.g.cs
+Assesment 1/obj/Debug/MainWindow.g.i.cs
+*.cache
+*.exe
+*.resources
+*.pdb
