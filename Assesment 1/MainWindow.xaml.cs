@@ -23,5 +23,17 @@ namespace Assesment_1
         {
             InitializeComponent();
         }
+
+        List<Vehicle> vehicles = new List<Vehicle>();
+
+        private void BtnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            int MY = int.Parse(MakeYearTxt.Text);
+            int TankCap = int.Parse(TankCapTxt.Text);
+            int Dist = int.Parse(DistanceTxt.Text);
+
+            Vehicle vehicle = new Vehicle(ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, Dist, TankCap);
+            vehicles.Add(vehicle);
+        }
     }
 }
