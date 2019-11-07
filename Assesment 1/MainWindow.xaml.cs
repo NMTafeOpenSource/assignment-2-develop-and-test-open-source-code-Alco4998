@@ -19,21 +19,61 @@ namespace Assesment_1
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        List<Vehicle> vehicles;
+
         public MainWindow()
         {
             InitializeComponent();
+            vehicles = new List<Vehicle>();
         }
 
-        List<Vehicle> vehicles = new List<Vehicle>();
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            VehicleList.ItemsSource = vehicles;
+
+            Vehicle vehicle = new Vehicle("Volkswagon", "Swifty", 0420, "12adf", 12034, 458646);
+            vehicles.Add(vehicle);
+        }
 
         private void BtnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            int MY = int.Parse(MakeYearTxt.Text);
-            int TankCap = int.Parse(TankCapTxt.Text);
-            int Dist = int.Parse(DistanceTxt.Text);
+            
+            if (MakeYearTxt.Text != null || TankCapTxt.Text != null || DistanceTxt.Text != null)
+            {
+                int MY;
+                int.TryParse(MakeYearTxt.Text, out MY);
 
-            Vehicle vehicle = new Vehicle(ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, Dist, TankCap);
-            vehicles.Add(vehicle);
+                int TankCap;
+                int.TryParse(TankCapTxt.Text, out TankCap);
+
+                int Dist;
+                int.TryParse(DistanceTxt.Text, out Dist);
+
+                if (Dist != 0 || TankCap != 0 || MY != 0)
+                {
+                    Vehicle vehicle = new Vehicle(ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, Dist, TankCap);
+                    vehicles.Add(vehicle);
+                }
+            }
+
+            VehicleList.Items.Refresh();
+        }
+
+        private void BtnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if(VehicleList.SelectedItem == null)
+            {
+                MessageBox.Show("Please Select a Vehicle to remove");
+            }
+
+            else
+            {
+                Vehicle Selected = (Vehicle)VehicleList.SelectedItem;
+                vehicles.Remove(Selected);
+            }
+
+            VehicleList.Items.Refresh();
         }
     }
 }

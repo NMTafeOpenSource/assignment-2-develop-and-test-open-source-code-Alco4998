@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assesment_1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="885" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -21,11 +21,21 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <ListView x:Name="VehicleList"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Grid.Column="0" Grid.Row="0"
                   Grid.RowSpan="6"
-                  Margin="10,10,0,0"
-                  ItemsSource="{Binding vehicles}">
+                  Margin="10,10,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding manufacturer}" Header="Manufacturer"          Width="80"           />
+                    <GridViewColumn DisplayMemberBinding="{Binding model}" Header="Model"                        Width="50"           />
+                    <GridViewColumn DisplayMemberBinding="{Binding makeyear}" Header="Make Year"                 Width="60"           />
+                    <GridViewColumn DisplayMemberBinding="{Binding regNumb}" Header="Registration Number"        Width="120"           />
+                    <GridViewColumn DisplayMemberBinding="{Binding distanceTraveled}" Header="Distance Traveled" Width="100"           />
+                    <GridViewColumn DisplayMemberBinding="{Binding tankCapactiy}" Header="Tank Capacity"         Width="100"           />
+                </GridView>
+            </ListView.View>
         </ListView>
         <Label Content="Manufacturer" 
                Grid.Column="1" Grid.Row="0"
@@ -94,11 +104,11 @@
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="100" Height="25"
                 Margin="5,0,0,0" Click="BtnSubmit_Click"/>
-        
+
         <Button x:Name="btnRemove" Content="Remove"
                 Grid.Column="1" Grid.Row="6"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Width="100" Height="25"
-                Margin="0,0,5,0"/>
+                Margin="0,0,5,35" Click="BtnRemove_Click"/>
     </Grid>
 </Window>

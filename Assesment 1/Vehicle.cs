@@ -7,13 +7,13 @@ namespace Assesment_1
 {
     public class Vehicle
     {
-        private string       manufacturer;
-        private string       model;
-        private int          makeyear;
-        private string       regNumb;
-        private int          distanceTraveled;
-        private int          tankCapacity;
-        private FuelPurchase fuelPurchase;
+        public string       manufacturer     { get; set; }
+        public string       model            { get; set; }
+        public int          makeyear         { get; set; }
+        public string       regNumb          { get; set; }
+        public int          distanceTraveled { get; set; }
+        public int          tankCapacity     { get; set; }
+        public FuelPurchase fuelPurchase     { get; set; }
 
         /*
          * Because i have had a brainfart and can't remeber how C# does its object constructors
