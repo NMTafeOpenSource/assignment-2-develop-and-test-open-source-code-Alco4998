@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -11,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
 
 namespace Assesment_1
 {
@@ -26,6 +29,52 @@ namespace Assesment_1
         {
             InitializeComponent();
             vehicles = new List<Vehicle>();
+            Filltable();
+        }
+
+        
+
+        private async void Filltable(string Searchterm = "")
+        {
+            string connStr =
+                "server=localhost;" +
+                "user=AJC_Car_asses1;" +
+                "database=ajc_car_asses1;" +
+                "port=3306;" +
+                "password=A*crewdev";
+
+            try
+            {
+
+                string sql = "SELECT * FROM `vehicles`";
+                if (!Searchterm.Equals(""))
+                {
+                    sql += "WHERE id = '%" + Searchterm + "%'";
+                }
+                using (MySqlConnection connection = new MySqlConnection(connStr))
+                {
+                    connection.Open();
+
+                    using (MySqlCommand cmdSel = new MySqlCommand(sql, connection))
+                    {
+                        DataTable dt = new DataTable();
+                        MySqlDataAdapter da = new MySqlDataAdapter(cmdSel);
+                        da.Fill(dt);
+                        VehicleList.DataContext = dt;
+
+                    }
+
+                    connection.Close();
+
+                    VehicleList.Items.Refresh();
+
+                }
+            }
+
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -74,6 +123,16 @@ namespace Assesment_1
             }
 
             VehicleList.Items.Refresh();
+        }
+
+        private void VehicleList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!VehicleList.SelectedItem.Equals(null))
+            {
+                DataRowView dr = VehicleList.SelectedItem as DataRowView;
+                DataRow dr1 = dr.Row;
+                Debug.Print(dr1.ToString());
+            }
         }
     }
 }

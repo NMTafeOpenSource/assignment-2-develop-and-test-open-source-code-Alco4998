@@ -8,8 +8,9 @@ namespace Assesment_1
     public class FuelPurchase
     {
         protected double fuelEconomy { get; set; }
-        private double liters = 0;
-        private double cost = 0;
+        protected double distance { get; set; }
+        private double liters { get; set; } = 0;
+        private double cost { get; set; } = 0;
         
         public void setFuelEconomy()
         {
@@ -21,5 +22,7 @@ namespace Assesment_1
             this.liters += amount;
             this.cost += price;
         }
+
+        //public void calculateCost()
     }
 }

@@ -21,22 +21,24 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="VehicleList"
+        <DataGrid x:Name="VehicleList"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Grid.Column="0" Grid.Row="0"
                   Grid.RowSpan="6"
-                  Margin="10,10,0,0">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding manufacturer}" Header="Manufacturer"          Width="80"           />
-                    <GridViewColumn DisplayMemberBinding="{Binding model}" Header="Model"                        Width="50"           />
-                    <GridViewColumn DisplayMemberBinding="{Binding makeyear}" Header="Make Year"                 Width="60"           />
-                    <GridViewColumn DisplayMemberBinding="{Binding regNumb}" Header="Registration Number"        Width="120"           />
-                    <GridViewColumn DisplayMemberBinding="{Binding distanceTraveled}" Header="Distance Traveled" Width="100"           />
-                    <GridViewColumn DisplayMemberBinding="{Binding tankCapactiy}" Header="Tank Capacity"         Width="100"           />
-                </GridView>
-            </ListView.View>
-        </ListView>
+                  AutoGenerateColumns="False"
+                  Margin="10,10,0,0"
+                  ItemsSource="{Binding}"
+                  IsReadOnly="True" MouseDoubleClick="VehicleList_MouseDoubleClick"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding manufacturer}"     Header="Manufacturer"          Width="80"  />
+                <DataGridTextColumn Binding="{Binding model}"            Header="Model"                 Width="50"  />
+                <DataGridTextColumn Binding="{Binding makeyear}"         Header="Make Year"             Width="60"  />
+                <DataGridTextColumn Binding="{Binding regNumb}"          Header="Registration Number"   Width="120" />
+                <DataGridTextColumn Binding="{Binding distanceTraveled}" Header="Distance Traveled"     Width="100" />
+                <DataGridTextColumn Binding="{Binding tankCapactiy}"     Header="Tank Capacity"         Width="100" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Label Content="Manufacturer" 
                Grid.Column="1" Grid.Row="0"
                Grid.ColumnSpan="1" Grid.RowSpan="1"
