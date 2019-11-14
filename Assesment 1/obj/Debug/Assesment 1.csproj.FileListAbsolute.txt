@@ -26,3 +26,13 @@ C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-cod
 C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\obj\Debug\Assesment 1.exe
 C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\obj\Debug\Assesment 1.pdb
 C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\obj\Debug\Assesment 1.csprojAssemblyReference.cache
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Assesment 1.exe.config
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Google.Protobuf.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\MySql.Data.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Renci.SshNet.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Google.Protobuf.pdb
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Google.Protobuf.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\MySql.Data.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Renci.SshNet.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\obj\Debug\Assesment 1.csproj.CopyComplete
