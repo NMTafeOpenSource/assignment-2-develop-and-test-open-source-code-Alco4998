@@ -1,19 +1,11 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MySql.Data.MySqlClient;
 
 namespace Assesment_1
 {
@@ -24,34 +16,59 @@ namespace Assesment_1
     {
 
         List<Vehicle> vehicles;
+        private int Selected;
+        private int tableNumb;
+
+        private const string CONNSTR =
+                "server=localhost;" +
+                "user=AJC_Car_asses1;" +
+                "database=ajc_car_asses1;" +
+                "port=3306;" +
+                "password=A*crewdev;";
+
+        private MySqlConnection connection;
 
         public MainWindow()
         {
             InitializeComponent();
             vehicles = new List<Vehicle>();
-            Filltable();
+            Filltable(Selected, tableNumb);
+
         }
 
-        
 
-        private async void Filltable(string Searchterm = "")
+
+        private async void Filltable(int Select, int tableNumb)
         {
-            string connStr =
-                "server=localhost;" +
-                "user=AJC_Car_asses1;" +
-                "database=ajc_car_asses1;" +
-                "port=3306;" +
-                "password=A*crewdev";
+
 
             try
             {
-
-                string sql = "SELECT * FROM `vehicles`";
-                if (!Searchterm.Equals(""))
+                string sql = "SELECT * FROM ";
+                switch (tableNumb)
                 {
-                    sql += "WHERE id = '%" + Searchterm + "%'";
+                    case 1:
+                        sql += " fuel ";
+                        break;
+                    case 2:
+                        sql += " journey ";
+                        break;
+                    case 3:
+                        sql += " services ";
+                        break;
+                    default:
+                        sql += " vehicles ";
+                        break;
                 }
-                using (MySqlConnection connection = new MySqlConnection(connStr))
+
+                await Task.Delay(1);
+
+                if (!Select.Equals(0))
+                {
+                    sql += " WHERE id = " + Select;
+                }
+
+                using (connection = new MySqlConnection(CONNSTR))
                 {
                     connection.Open();
 
@@ -66,44 +83,69 @@ namespace Assesment_1
 
                     connection.Close();
 
-                    VehicleList.Items.Refresh();
+                    //VehicleList.Items.Refresh();
 
                 }
-            }
 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            VehicleList.ItemsSource = vehicles;
-
-            Vehicle vehicle = new Vehicle("Volkswagon", "Swifty", 0420, "12adf", 12034, 458646);
-            vehicles.Add(vehicle);
-        }
-
         private void BtnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            
-            if (MakeYearTxt.Text != null || TankCapTxt.Text != null || DistanceTxt.Text != null)
+
+            if (MakeYearTxt.Text != null ||  TankCapTxt.Text != null)
             {
+                if (MakeYearTxt.Text.Length > 4 || TankCapTxt.Text.Length > 10 || ModelTxt.Text.Length > 128 || RegoTxt.Text.Length > 16 || FuelTxt.Text.Length > 8 || ManufacturerTxt.Text.Length > 64)
+                { MessageBox.Show("One or more of you Text boxes has too many Charactors"); }
                 int MY;
                 int.TryParse(MakeYearTxt.Text, out MY);
 
                 int TankCap;
                 int.TryParse(TankCapTxt.Text, out TankCap);
 
-                int Dist;
-                int.TryParse(DistanceTxt.Text, out Dist);
-
-                if (Dist != 0 || TankCap != 0 || MY != 0)
+                if (TankCap != 0 || MY != 0)
                 {
-                    Vehicle vehicle = new Vehicle(ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, Dist, TankCap);
-                    vehicles.Add(vehicle);
+                    string sql;
+                    string table = "";
+                    switch (tableNumb)
+                    {
+                        case 1:
+                            table += "fuel";
+                            break;
+                        case 2:
+                            table += "journey";
+                            break;
+                        case 3:
+                            table += "services";
+                            break;
+                        default:
+                            table += "vehicles";
+                            break;
+                    }
+
+                    if (table == "vehicles") {
+                        string checkdupes = string.Format("SELECT * FROM {0} WHERE registration = '{1}'", table, RegoTxt.Text);
+
+                        sql = string.Format("INSERT INTO `{6}` (`make`,`model`,`make-Year`,`registration`,`fuel`,`tank-Size`) VALUES ('{0}','{1}',{2},'{3}','{4}',{5})",
+                            ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, FuelTxt.Text, TankCapTxt.Text, table);
+                        Console.WriteLine(sql);
+                        using (connection = new MySqlConnection(CONNSTR))
+                        {
+                            connection.Open();
+                            using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                            {
+                                sqlCommand.ExecuteNonQuery();
+                            }
+                            connection.Close();
+                            Filltable(0, 0);
+                        }
+                    }
                 }
+
             }
 
             VehicleList.Items.Refresh();
@@ -111,28 +153,95 @@ namespace Assesment_1
 
         private void BtnRemove_Click(object sender, RoutedEventArgs e)
         {
-            if(VehicleList.SelectedItem == null)
+            if (!VehicleList.SelectedItem.Equals(null))
             {
-                MessageBox.Show("Please Select a Vehicle to remove");
-            }
+                DataRowView dr = VehicleList.SelectedItem as DataRowView;
 
-            else
-            {
-                Vehicle Selected = (Vehicle)VehicleList.SelectedItem;
-                vehicles.Remove(Selected);
-            }
+                int dr1;
+                int.TryParse(dr[0].ToString(), out dr1);
 
-            VehicleList.Items.Refresh();
+                string sql = "Delete FROM ";
+                switch (tableNumb)
+                {
+                    case 1:
+                        sql += " fuel ";
+                        break;
+                    case 2:
+                        sql += " journey ";
+                        break;
+                    case 3:
+                        sql += " services ";
+                        break;
+                    default:
+                        sql += " vehicles ";
+                        break;
+                }
+                sql += "WHERE id = " + dr1;
+                using (connection = new MySqlConnection(CONNSTR))
+                {
+                    connection.Open();
+                    using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                    {
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+
+                Filltable(0, 0);
+            }
         }
 
         private void VehicleList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
             if (!VehicleList.SelectedItem.Equals(null))
             {
                 DataRowView dr = VehicleList.SelectedItem as DataRowView;
-                DataRow dr1 = dr.Row;
-                Debug.Print(dr1.ToString());
+
+                int dr1;
+                int.TryParse(dr[0].ToString(), out dr1);
+
+                Selected = dr1;
+
+                Debug.Print(dr[0].ToString());
             }
+
+            Filltable(Selected, tableNumb);
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+
+            tableNumb = 0;
+            Selected = 0;
+            Filltable(Selected, 0);
+            VehicleRbtn.IsChecked = true;
+
+        }
+
+        private void ServiceRbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            tableNumb = 3;
+        }
+
+        private void JourneyRbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            tableNumb = 2;
+        }
+
+        private void FuelRbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            tableNumb = 1;
+        }
+
+        private void VehicleRbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            tableNumb = 0;
+        }
+
+        private void VehicleList_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Debug.WriteLine(true);
         }
     }
 }
