@@ -133,22 +133,39 @@ namespace Assesment_1
                     if (table == "vehicles") {
 
                         string checkdupes = string.Format("SELECT * FROM {0} WHERE registration = '{1}'", table, RegoTxt.Text);
-
-                        sql = string.Format("INSERT INTO `{6}` (`make`,`model`,`make-Year`,`registration`,`fuel`,`tank-Size`) VALUES ('{0}','{1}',{2},'{3}','{4}',{5})",
-                            ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, FuelTxt.Text, TankCapTxt.Text, table);
-
-                        Console.WriteLine(sql);
-
                         using (connection = new MySqlConnection(CONNSTR))
                         {
+                            bool Duplicates = false;
                             connection.Open();
-                            using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                            using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
                             {
-                                sqlCommand.ExecuteNonQuery();
+                                DataTable dt = new DataTable();
+                                MySqlDataAdapter da = new MySqlDataAdapter(sqlCommand);
+                                da.Fill(dt);
+                                Duplicates = dt.Rows.Count > 0 ? true : false;
+                            }
+
+                            if (!Duplicates)
+                            {
+
+                                sql = string.Format("INSERT INTO `{6}` (`make`,`model`,`make-Year`,`registration`,`fuel`,`tank-Size`) VALUES ('{0}','{1}',{2},'{3}','{4}',{5})",
+                                    ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, FuelTxt.Text, TankCapTxt.Text, table);
+
+                                Console.WriteLine(sql);
+
+                                using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                                {
+                                    sqlCommand.ExecuteNonQuery();
+                                }
                             }
                             connection.Close();
                             Filltable(0, 0);
                         }
+                    }
+
+                    if (table == "journey")
+                    {
+
                     }
                 }
 
@@ -265,6 +282,7 @@ namespace Assesment_1
 
                     ManufacturerTxt.Visibility = Visibility.Visible;
                     ModelTxt.Visibility = Visibility.Visible;
+                    Calandarcal.Visibility = Visibility.Hidden;
                     MakeYearTxt.Visibility = Visibility.Hidden;
                     RegoTxt.Visibility = Visibility.Hidden;
                     FuelTxt.Visibility = Visibility.Hidden;
@@ -280,7 +298,8 @@ namespace Assesment_1
                     tankLbl.Visibility = Visibility.Hidden;
 
                     ManufacturerTxt.Visibility = Visibility.Visible;
-                    ModelTxt.Visibility = Visibility.Visible;
+                    ModelTxt.Visibility = Visibility.Hidden;
+                    Calandarcal.Visibility = Visibility.Visible;
                     MakeYearTxt.Visibility = Visibility.Hidden;
                     RegoTxt.Visibility = Visibility.Hidden;
                     FuelTxt.Visibility = Visibility.Hidden;
@@ -296,7 +315,8 @@ namespace Assesment_1
                     tankLbl.Visibility = Visibility.Hidden;
 
                     ManufacturerTxt.Visibility = Visibility.Visible;
-                    ModelTxt.Visibility = Visibility.Visible;
+                    ModelTxt.Visibility = Visibility.Hidden;
+                    Calandarcal.Visibility = Visibility.Visible;
                     MakeYearTxt.Visibility = Visibility.Hidden;
                     RegoTxt.Visibility = Visibility.Hidden;
                     FuelTxt.Visibility = Visibility.Hidden;
@@ -307,6 +327,7 @@ namespace Assesment_1
 
                     lblManufacturer.Visibility = Visibility.Visible;  ManufacturerTxt.Visibility = Visibility.Visible;
                     modelLbl.Visibility = Visibility.Visible;         ModelTxt.Visibility = Visibility.Visible;
+                                                                      Calandarcal.Visibility = Visibility.Hidden;
                     MYLbl.Visibility = Visibility.Visible;            MakeYearTxt.Visibility = Visibility.Visible;
                     RNLbl.Visibility = Visibility.Visible;            RegoTxt.Visibility = Visibility.Visible;
                     fuelLbl.Visibility = Visibility.Visible;          FuelTxt.Visibility = Visibility.Visible;
