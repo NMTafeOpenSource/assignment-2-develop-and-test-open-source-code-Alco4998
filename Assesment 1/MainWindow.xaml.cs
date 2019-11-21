@@ -18,6 +18,7 @@ namespace Assesment_1
         List<Vehicle> vehicles;
         private int Selected;
         private int tableNumb;
+        private bool related;
 
         private const string CONNSTR =
                 "server=localhost;" +
@@ -49,15 +50,19 @@ namespace Assesment_1
                 {
                     case 1:
                         sql += " fuel ";
+                        related = true;
                         break;
                     case 2:
                         sql += " journey ";
+                        related = true;
                         break;
                     case 3:
                         sql += " services ";
+                        related = true;
                         break;
                     default:
                         sql += " vehicles ";
+                        related = false;
                         break;
                 }
 
@@ -65,7 +70,8 @@ namespace Assesment_1
 
                 if (!Select.Equals(0))
                 {
-                    sql += " WHERE id = " + Select;
+                    string filteroption = related ? "vehicle_id" : "id";
+                    sql += " WHERE " + filteroption + " = " + Select;
                 }
 
                 using (connection = new MySqlConnection(CONNSTR))
@@ -80,15 +86,11 @@ namespace Assesment_1
                         VehicleList.DataContext = dt;
 
                     }
-
                     connection.Close();
 
-                    //VehicleList.Items.Refresh();
-
+                    ChangeAddContext();
                 }
-
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
@@ -101,6 +103,7 @@ namespace Assesment_1
             {
                 if (MakeYearTxt.Text.Length > 4 || TankCapTxt.Text.Length > 10 || ModelTxt.Text.Length > 128 || RegoTxt.Text.Length > 16 || FuelTxt.Text.Length > 8 || ManufacturerTxt.Text.Length > 64)
                 { MessageBox.Show("One or more of you Text boxes has too many Charactors"); }
+
                 int MY;
                 int.TryParse(MakeYearTxt.Text, out MY);
 
@@ -128,11 +131,14 @@ namespace Assesment_1
                     }
 
                     if (table == "vehicles") {
+
                         string checkdupes = string.Format("SELECT * FROM {0} WHERE registration = '{1}'", table, RegoTxt.Text);
 
                         sql = string.Format("INSERT INTO `{6}` (`make`,`model`,`make-Year`,`registration`,`fuel`,`tank-Size`) VALUES ('{0}','{1}',{2},'{3}','{4}',{5})",
                             ManufacturerTxt.Text, ModelTxt.Text, MY, RegoTxt.Text, FuelTxt.Text, TankCapTxt.Text, table);
+
                         Console.WriteLine(sql);
+
                         using (connection = new MySqlConnection(CONNSTR))
                         {
                             connection.Open();
@@ -159,6 +165,7 @@ namespace Assesment_1
 
                 int dr1;
                 int.TryParse(dr[0].ToString(), out dr1);
+                Selected = dr1;
 
                 string sql = "Delete FROM ";
                 switch (tableNumb)
@@ -182,7 +189,8 @@ namespace Assesment_1
                     connection.Open();
                     using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
                     {
-                        sqlCommand.ExecuteNonQuery();
+                        try { sqlCommand.ExecuteNonQuery(); }
+                        catch (Exception ex) { MessageBox.Show(ex.ToString()); }
                     }
                     connection.Close();
                 }
@@ -193,20 +201,19 @@ namespace Assesment_1
 
         private void VehicleList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+                if (VehicleList.SelectedItem != null)
+                {
+                    DataRowView dr = VehicleList.SelectedItem as DataRowView;
 
-            if (!VehicleList.SelectedItem.Equals(null))
-            {
-                DataRowView dr = VehicleList.SelectedItem as DataRowView;
+                    int dr1;
+                    int.TryParse(dr[0].ToString(), out dr1);
 
-                int dr1;
-                int.TryParse(dr[0].ToString(), out dr1);
+                    Selected = dr1;
 
-                Selected = dr1;
+                    Debug.Print(dr[0].ToString());
+                }
 
-                Debug.Print(dr[0].ToString());
-            }
-
-            Filltable(Selected, tableNumb);
+                Filltable(Selected, tableNumb);
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -242,6 +249,77 @@ namespace Assesment_1
         private void VehicleList_MouseEnter(object sender, MouseEventArgs e)
         {
             Debug.WriteLine(true);
+        }
+        
+        private void ChangeAddContext()
+        {
+            switch(tableNumb)
+            {
+                case 1:
+                    lblManufacturer.Content = "Amount";
+                    modelLbl.Content = "Cost";
+                    MYLbl.Visibility = Visibility.Hidden;
+                    RNLbl.Visibility = Visibility.Hidden;
+                    fuelLbl.Visibility = Visibility.Hidden;
+                    tankLbl.Visibility = Visibility.Hidden;
+
+                    ManufacturerTxt.Visibility = Visibility.Visible;
+                    ModelTxt.Visibility = Visibility.Visible;
+                    MakeYearTxt.Visibility = Visibility.Hidden;
+                    RegoTxt.Visibility = Visibility.Hidden;
+                    FuelTxt.Visibility = Visibility.Hidden;
+                    TankCapTxt.Visibility = Visibility.Hidden;
+                    break;
+
+                case 2:
+                    lblManufacturer.Content = "Distance";
+                    modelLbl.Content = "Journey day";
+                    MYLbl.Visibility = Visibility.Hidden;
+                    RNLbl.Visibility = Visibility.Hidden;
+                    fuelLbl.Visibility = Visibility.Hidden;
+                    tankLbl.Visibility = Visibility.Hidden;
+
+                    ManufacturerTxt.Visibility = Visibility.Visible;
+                    ModelTxt.Visibility = Visibility.Visible;
+                    MakeYearTxt.Visibility = Visibility.Hidden;
+                    RegoTxt.Visibility = Visibility.Hidden;
+                    FuelTxt.Visibility = Visibility.Hidden;
+                    TankCapTxt.Visibility = Visibility.Hidden;
+                    break;
+
+                case 3:
+                    lblManufacturer.Content = "Odometer";
+                    modelLbl.Content = "Day of Service";
+                    MYLbl.Visibility = Visibility.Hidden;
+                    RNLbl.Visibility = Visibility.Hidden;
+                    fuelLbl.Visibility = Visibility.Hidden;
+                    tankLbl.Visibility = Visibility.Hidden;
+
+                    ManufacturerTxt.Visibility = Visibility.Visible;
+                    ModelTxt.Visibility = Visibility.Visible;
+                    MakeYearTxt.Visibility = Visibility.Hidden;
+                    RegoTxt.Visibility = Visibility.Hidden;
+                    FuelTxt.Visibility = Visibility.Hidden;
+                    TankCapTxt.Visibility = Visibility.Hidden;
+                    break;
+
+                default:
+
+                    lblManufacturer.Visibility = Visibility.Visible;  ManufacturerTxt.Visibility = Visibility.Visible;
+                    modelLbl.Visibility = Visibility.Visible;         ModelTxt.Visibility = Visibility.Visible;
+                    MYLbl.Visibility = Visibility.Visible;            MakeYearTxt.Visibility = Visibility.Visible;
+                    RNLbl.Visibility = Visibility.Visible;            RegoTxt.Visibility = Visibility.Visible;
+                    fuelLbl.Visibility = Visibility.Visible;          FuelTxt.Visibility = Visibility.Visible;
+                    tankLbl.Visibility = Visibility.Visible;          TankCapTxt.Visibility = Visibility.Visible;
+
+                    lblManufacturer.Content = "Manufacturer";
+                    modelLbl.Content = "Model";
+                    MYLbl.Content = "Make Year";
+                    RNLbl.Content = "Registration Number";
+                    fuelLbl.Content = "Fuel Type";
+                    tankLbl.Content = "Tank Capacity";
+                    break;
+            }
         }
     }
 }

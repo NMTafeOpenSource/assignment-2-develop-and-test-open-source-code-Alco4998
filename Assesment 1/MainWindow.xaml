@@ -81,7 +81,7 @@
                Margin="10,17,10,17"
                Visibility="Visible"/>
         <Label x:Name="tankLbl"
-               Content="tankCapacity" 
+               Content="Tank Capacity" 
                Grid.Column="1" Grid.Row="5"
                Grid.ColumnSpan="1" Grid.RowSpan="1"
                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
