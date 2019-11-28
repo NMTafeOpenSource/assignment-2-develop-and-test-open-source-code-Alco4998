@@ -36,3 +36,7 @@ C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-cod
 C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\MySql.Data.xml
 C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Renci.SshNet.xml
 C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\obj\Debug\Assesment 1.csproj.CopyComplete
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
