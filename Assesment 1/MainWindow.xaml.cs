@@ -34,7 +34,6 @@ namespace Assesment_1
             InitializeComponent();
             vehicles = new List<Vehicle>();
             Filltable(Selected, tableNumb);
-
         }
 
 
@@ -90,49 +89,80 @@ namespace Assesment_1
 
                     ChangeAddContext();
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
 
+        public bool ParseInputs(string Btn, int table, string input1,string input2 ,string input3 ,string input4,string input5,string input6)
+        {
+            bool Final = false;
+
+            if (Btn == "Submit")
+            {
+                switch (table)
+                {
+                    case 1://fuel
+                        Final = input2 != null && input1 != null;
+                        break;
+                    case 2://journey
+                        Final = input2 != null && input1 != null;
+                        break;
+                    case 3://services
+                        Final = input2 != null && input1 != null;
+                        break;
+                    default://vehicles
+                        Final = input3 != null && input6 != null && !(input3.Length > 4 || input6.Length > 10 || input2.Length > 128 || input4.Length > 16 || input5.Length > 8 || input1.Length > 64);
+                        if (input3.Length > 4 || input6.Length > 10 || input2.Length > 128 || input4.Length > 16 || input5.Length > 8 || input1.Length > 64)
+                        { MessageBox.Show("One or more of you Text boxes has too many Charactors"); }
+                        break;
+                }
+
+                return Final;
+            }
+            if (Btn == "Delete" || Btn == "Mouse")
+            {
+                return input1 != null;
+            }
+
+            return Final;
+        }
+
         private void BtnSubmit_Click(object sender, RoutedEventArgs e)
         {
-
-            if (MakeYearTxt.Text != null ||  TankCapTxt.Text != null)
+            string sql;
+            string table = "";
+            switch (tableNumb)
             {
-                if (MakeYearTxt.Text.Length > 4 || TankCapTxt.Text.Length > 10 || ModelTxt.Text.Length > 128 || RegoTxt.Text.Length > 16 || FuelTxt.Text.Length > 8 || ManufacturerTxt.Text.Length > 64)
-                { MessageBox.Show("One or more of you Text boxes has too many Charactors"); }
+                case 1:
+                    table += "fuel";
+                    break;
+                case 2:
+                    table += "journey";
+                    break;
+                case 3:
+                    table += "services";
+                    break;
+                default:
+                    table += "vehicles";
+                    break;
+            }
 
-                int MY;
-                int.TryParse(MakeYearTxt.Text, out MY);
-
-                int TankCap;
-                int.TryParse(TankCapTxt.Text, out TankCap);
-
-                if (TankCap != 0 || MY != 0)
+            if (table == "vehicles")
+            {
+                if (ParseInputs("Submit",tableNumb,ManufacturerTxt.Text,ModelTxt.Text,MakeYearTxt.Text,RegoTxt.Text,FuelTxt.Text,TankCapTxt.Text))
                 {
-                    string sql;
-                    string table = "";
-                    switch (tableNumb)
+                    int MY;
+                    int.TryParse(MakeYearTxt.Text, out MY);
+
+                    int TankCap;
+                    int.TryParse(TankCapTxt.Text, out TankCap);
+
+                    if (TankCap != 0 && MY != 0)
                     {
-                        case 1:
-                            table += "fuel";
-                            break;
-                        case 2:
-                            table += "journey";
-                            break;
-                        case 3:
-                            table += "services";
-                            break;
-                        default:
-                            table += "vehicles";
-                            break;
-                    }
-
-                    if (table == "vehicles") {
-
-                        string checkdupes = string.Format("SELECT * FROM {0} WHERE registration = '{1}'", table, RegoTxt.Text);
+                        string checkdupes = string.Format("SELECT * FROM {0} WHERE registration = '{1}' AND vehicle_id = '{2}'", table, RegoTxt.Text, Selected);
                         using (connection = new MySqlConnection(CONNSTR))
                         {
                             bool Duplicates = false;
@@ -162,21 +192,147 @@ namespace Assesment_1
                             Filltable(0, 0);
                         }
                     }
+                }
+                Reset();
+            }
 
-                    if (table == "journey")
+            if (table == "journey")
+            {
+                if (ManufacturerTxt.Text != null && StartCalandercal.SelectedDate != null)
+                {
+                    DateTime dateTime = Convert.ToDateTime(StartCalandercal.Text);
+                    string date = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    string checkdupes = string.Format("SELECT journey_at FROM {0} WHERE journey_at = '{1}' AND vehicle_id = '{2}'", table, date, Selected);
+                    using (connection = new MySqlConnection(CONNSTR))
                     {
+                        bool Duplicates = false;
+                        Console.WriteLine(Duplicates);
+                        connection.Open();
+
+                        using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
+                        {
+                            DataTable dt = new DataTable();
+                            MySqlDataAdapter da = new MySqlDataAdapter(sqlCommand);
+                            da.Fill(dt);
+                            Duplicates = dt.Rows.Count > 0 ? true : false;
+                        }
+
+                        if (!Duplicates)
+                        {
+                            int Distance;
+                            int.TryParse(ManufacturerTxt.Text, out Distance);
+                            sql = string.Format("INSERT INTO `{3}` (`vehicle_id`,`distance`,`journey_at`) VALUES ({0},{1},'{2}')",
+                                Selected, Distance, date, table);
+
+                            Console.WriteLine(sql);
+
+                            using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                            {
+                                sqlCommand.ExecuteNonQuery();
+                            }
+                        }
+                        connection.Close();
+                        Filltable(0, 0);
+                    }
+                }
+                Reset();
+            }
+
+            if (table == "services")
+            {
+                if (StartCalandercal != null && ManufacturerTxt.Text != null)
+                {
+                    DateTime dateTime = Convert.ToDateTime(StartCalandercal.Text);
+                    string date = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    int.TryParse(ManufacturerTxt.Text, out int odo);
+                    string checkdupes = string.Format("SELECT * FROM {0} WHERE serviced_at = '{1}' AND vehicle_id = '{2}'", table, date, Selected);
+
+                    using (connection = new MySqlConnection(CONNSTR))
+                    {
+                        bool Duplicates = false;
+                        Console.WriteLine(Duplicates);
+                        connection.Open();
+
+                        using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
+                        {
+                            DataTable dt = new DataTable();
+                            MySqlDataAdapter da = new MySqlDataAdapter(sqlCommand);
+                            da.Fill(dt);
+                            Duplicates = dt.Rows.Count > 0 ? true : false;
+                        }
+
+                        if (!Duplicates)
+                        {
+                            int Distance;
+                            int.TryParse(ManufacturerTxt.Text, out Distance);
+                            sql = string.Format("INSERT INTO `{3}` (`vehicle_id`,`odometer`,`serviced_at`) VALUES ({0},{1},'{2}')",
+                                Selected, odo, date, table);
+
+                            Console.WriteLine(sql);
+
+                            using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                            {
+                                sqlCommand.ExecuteNonQuery();
+                            }
+                        }
+                        connection.Close();
+                        Filltable(0, 0);
 
                     }
                 }
-
+                Reset();
             }
 
-            VehicleList.Items.Refresh();
+            if (table == "fuel")
+            {
+                DateTime dateTime = Convert.ToDateTime(StartCalandercal.Text);
+                string date = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                int.TryParse(ManufacturerTxt.Text, out int amount);
+                double cost = amount * 2.45;
+
+                string checkdupes = string.Format("SELECT * FROM {0} WHERE serviced_at = '{1}' AND vehicle_id = '{2}'", table, date, Selected);
+                using (connection = new MySqlConnection(CONNSTR))
+                {
+                    bool Duplicates = false;
+                    Console.WriteLine(Duplicates);
+                    connection.Open();
+
+                    using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
+                    {
+                        DataTable dt = new DataTable();
+                        MySqlDataAdapter da = new MySqlDataAdapter(sqlCommand);
+                        da.Fill(dt);
+                        Duplicates = dt.Rows.Count > 0 ? true : false;
+                    }
+
+                    if (!Duplicates)
+                    {
+                        int Distance;
+                        int.TryParse(ManufacturerTxt.Text, out Distance);
+                        sql = string.Format("INSERT INTO `{4}` (`vehicle_id`,`amount`,`cost`,`serviced_at`) VALUES ({0},{1},{2},'{3}')",
+                            Selected, amount, cost, date, table);
+
+                        Console.WriteLine(sql);
+
+                        using (MySqlCommand sqlCommand = new MySqlCommand(sql, connection))
+                        {
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                    }
+                    connection.Close();
+                    Filltable(0, 0);
+                }
+            }
+
+            Reset();
         }
 
         private void BtnRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (!VehicleList.SelectedItem.Equals(null))
+            string numb = VehicleList.SelectedItem.ToString() != null ? VehicleList.SelectedItem.ToString() : "";
+            if (ParseInputs("Delete", tableNumb, numb, ModelTxt.Text, MakeYearTxt.Text, RegoTxt.Text, FuelTxt.Text, TankCapTxt.Text))
             {
                 DataRowView dr = VehicleList.SelectedItem as DataRowView;
 
@@ -200,7 +356,9 @@ namespace Assesment_1
                         sql += " vehicles ";
                         break;
                 }
+
                 sql += "WHERE id = " + dr1;
+
                 using (connection = new MySqlConnection(CONNSTR))
                 {
                     connection.Open();
@@ -218,29 +376,24 @@ namespace Assesment_1
 
         private void VehicleList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-                if (VehicleList.SelectedItem != null)
-                {
-                    DataRowView dr = VehicleList.SelectedItem as DataRowView;
+            if (ParseInputs("Mouse", tableNumb, VehicleList.SelectedItem.ToString(), ModelTxt.Text, MakeYearTxt.Text, RegoTxt.Text, FuelTxt.Text, TankCapTxt.Text))
+            {
+                DataRowView dr = VehicleList.SelectedItem as DataRowView;
 
-                    int dr1;
-                    int.TryParse(dr[0].ToString(), out dr1);
+                int dr1;
+                int.TryParse(dr[0].ToString(), out dr1);
 
-                    Selected = dr1;
+                Selected = dr1;
 
-                    Debug.Print(dr[0].ToString());
-                }
+                Debug.Print(dr[0].ToString());
+            }
 
-                Filltable(Selected, tableNumb);
+            Filltable(Selected, tableNumb);
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-
-            tableNumb = 0;
-            Selected = 0;
-            Filltable(Selected, 0);
-            VehicleRbtn.IsChecked = true;
-
+            Reset();
         }
 
         private void ServiceRbtn_Checked(object sender, RoutedEventArgs e)
@@ -263,75 +416,110 @@ namespace Assesment_1
             tableNumb = 0;
         }
 
-        private void VehicleList_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Debug.WriteLine(true);
-        }
-        
         private void ChangeAddContext()
         {
-            switch(tableNumb)
+            switch (tableNumb)
             {
-                case 1:
+                case 1: //Fuel
                     lblManufacturer.Content = "Amount";
-                    modelLbl.Content = "Cost";
-                    MYLbl.Visibility = Visibility.Hidden;
+                    modelLbl.Content = "Fuel Date";
+                    MYLbl.Content = "Cost";
+                    MYLbl.Visibility = Visibility.Visible;
                     RNLbl.Visibility = Visibility.Hidden;
                     fuelLbl.Visibility = Visibility.Hidden;
-                    tankLbl.Visibility = Visibility.Hidden;
-
-                    ManufacturerTxt.Visibility = Visibility.Visible;
-                    ModelTxt.Visibility = Visibility.Visible;
-                    Calandarcal.Visibility = Visibility.Hidden;
-                    MakeYearTxt.Visibility = Visibility.Hidden;
-                    RegoTxt.Visibility = Visibility.Hidden;
-                    FuelTxt.Visibility = Visibility.Hidden;
-                    TankCapTxt.Visibility = Visibility.Hidden;
-                    break;
-
-                case 2:
-                    lblManufacturer.Content = "Distance";
-                    modelLbl.Content = "Journey day";
-                    MYLbl.Visibility = Visibility.Hidden;
-                    RNLbl.Visibility = Visibility.Hidden;
-                    fuelLbl.Visibility = Visibility.Hidden;
-                    tankLbl.Visibility = Visibility.Hidden;
+                    tankLbl.Visibility = Visibility.Visible;
 
                     ManufacturerTxt.Visibility = Visibility.Visible;
                     ModelTxt.Visibility = Visibility.Hidden;
-                    Calandarcal.Visibility = Visibility.Visible;
+                    MakeYearTxt.IsEnabled = false;
+                    StartCalandercal.Visibility = Visibility.Visible;
+                    MakeYearTxt.Visibility = Visibility.Visible;
+                    RegoTxt.Visibility = Visibility.Hidden;
+                    FuelTxt.Visibility = Visibility.Hidden;
+                    TankCapTxt.Visibility = Visibility.Visible;
+                    TankCapTxt.IsEnabled = false;
+                    tankLbl.Content = "Total Filled:";
+
+                    ManufacturerTxt.Text = "";
+                    ModelTxt.Text = "";
+                    MakeYearTxt.Text = "";
+                    StartCalandercal.Text = "";
+                    MakeYearTxt.Text = "";
+                    RegoTxt.Text = "";
+                    FuelTxt.Text = "";
+                    TankCapTxt.Text = totalFilled(tableNumb, Selected, CONNSTR);
+                    break;
+
+                case 2: //Journey
+                    lblManufacturer.Content = "Distance";
+                    modelLbl.Content = "Start Journey Day";
+                    MYLbl.Visibility = Visibility.Hidden;
+                    RNLbl.Visibility = Visibility.Hidden;
+                    fuelLbl.Visibility = Visibility.Hidden;
+                    tankLbl.Visibility = Visibility.Visible;
+                    tankLbl.Content = "Total Distance:";
+
+                    ManufacturerTxt.Visibility = Visibility.Visible;
+                    ModelTxt.Visibility = Visibility.Hidden;
+                    StartCalandercal.Visibility = Visibility.Visible;
                     MakeYearTxt.Visibility = Visibility.Hidden;
                     RegoTxt.Visibility = Visibility.Hidden;
                     FuelTxt.Visibility = Visibility.Hidden;
-                    TankCapTxt.Visibility = Visibility.Hidden;
+                    TankCapTxt.Visibility = Visibility.Visible;
+                    TankCapTxt.IsEnabled = false;
+
+                    ManufacturerTxt.Text = "";
+                    ModelTxt.Text = "";
+                    MakeYearTxt.Text = "";
+                    StartCalandercal.Text = "";
+                    MakeYearTxt.Text = "";
+                    RegoTxt.Text = "";
+                    FuelTxt.Text = "";
+                    TankCapTxt.Text = totalDistance(tableNumb, Selected, CONNSTR);
+
                     break;
 
-                case 3:
+                case 3: //Services
                     lblManufacturer.Content = "Odometer";
                     modelLbl.Content = "Day of Service";
                     MYLbl.Visibility = Visibility.Hidden;
                     RNLbl.Visibility = Visibility.Hidden;
                     fuelLbl.Visibility = Visibility.Hidden;
                     tankLbl.Visibility = Visibility.Hidden;
+                    tankLbl.Content = "Last ODO# @ Service:";
 
                     ManufacturerTxt.Visibility = Visibility.Visible;
                     ModelTxt.Visibility = Visibility.Hidden;
-                    Calandarcal.Visibility = Visibility.Visible;
+                    StartCalandercal.Visibility = Visibility.Visible;
                     MakeYearTxt.Visibility = Visibility.Hidden;
                     RegoTxt.Visibility = Visibility.Hidden;
                     FuelTxt.Visibility = Visibility.Hidden;
-                    TankCapTxt.Visibility = Visibility.Hidden;
+                    TankCapTxt.Visibility = Visibility.Visible;
+                    TankCapTxt.IsEnabled = false;
+
+                    ManufacturerTxt.Text = "";
+                    ModelTxt.Text = "";
+                    MakeYearTxt.Text = "";
+                    StartCalandercal.Text = "";
+                    MakeYearTxt.Text = "";
+                    RegoTxt.Text = "";
+                    FuelTxt.Text = "";
+                    TankCapTxt.Text = LastService(tableNumb, Selected, CONNSTR);
                     break;
 
-                default:
+                default: //Vehicles
 
-                    lblManufacturer.Visibility = Visibility.Visible;  ManufacturerTxt.Visibility = Visibility.Visible;
-                    modelLbl.Visibility = Visibility.Visible;         ModelTxt.Visibility = Visibility.Visible;
-                                                                      Calandarcal.Visibility = Visibility.Hidden;
-                    MYLbl.Visibility = Visibility.Visible;            MakeYearTxt.Visibility = Visibility.Visible;
-                    RNLbl.Visibility = Visibility.Visible;            RegoTxt.Visibility = Visibility.Visible;
-                    fuelLbl.Visibility = Visibility.Visible;          FuelTxt.Visibility = Visibility.Visible;
-                    tankLbl.Visibility = Visibility.Visible;          TankCapTxt.Visibility = Visibility.Visible;
+                    lblManufacturer.Visibility = Visibility.Visible; ManufacturerTxt.Visibility = Visibility.Visible;
+                    modelLbl.Visibility = Visibility.Visible; ModelTxt.Visibility = Visibility.Visible;
+                    MakeYearTxt.IsEnabled = true;
+                    StartCalandercal.Visibility = Visibility.Hidden;
+                    MYLbl.Visibility = Visibility.Visible;
+                    MakeYearTxt.Visibility = Visibility.Visible;
+                    RegoTxt.Visibility = Visibility.Visible;
+                    RNLbl.Visibility = Visibility.Visible; FuelTxt.Visibility = Visibility.Visible;
+                    fuelLbl.Visibility = Visibility.Visible; TankCapTxt.Visibility = Visibility.Visible;
+                    tankLbl.Visibility = Visibility.Visible;
+                    TankCapTxt.IsEnabled = true;
 
                     lblManufacturer.Content = "Manufacturer";
                     modelLbl.Content = "Model";
@@ -339,8 +527,100 @@ namespace Assesment_1
                     RNLbl.Content = "Registration Number";
                     fuelLbl.Content = "Fuel Type";
                     tankLbl.Content = "Tank Capacity";
+
+                    ManufacturerTxt.Text = "";
+                    ModelTxt.Text = "";
+                    MakeYearTxt.Text = "";
+                    StartCalandercal.Text = "";
+                    MakeYearTxt.Text = "";
+                    RegoTxt.Text = "";
+                    FuelTxt.Text = "";
+                    TankCapTxt.Text = "";
                     break;
             }
+        }
+
+        private void Reset()
+        {
+            tableNumb = 0;
+            Selected = 0;
+            Filltable(Selected, 0);
+            VehicleRbtn.IsChecked = true;
+            ChangeAddContext();
+
+        }
+
+        private void ManufacturerTxt_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (tableNumb == 1)
+            {
+                int.TryParse(ManufacturerTxt.Text, out int amount);
+                double cost = amount * 2.45;
+                MakeYearTxt.Text = cost.ToString();
+            }
+        }
+
+        public string totalDistance(int tableTag, int ItemSelected, string strconn)
+        {
+            if (tableTag == 2)
+            {
+                string Total;
+                string table = "journey";
+                string checkdupes = string.Format("SELECT SUM(distance) FROM {0} WHERE vehicle_id = {1}", table, ItemSelected);
+                using (MySqlConnection connection = new MySqlConnection(strconn))
+                {
+                    connection.Open();
+                    using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
+                    {
+                        Total = sqlCommand.ExecuteScalar().ToString();
+                    }
+                    connection.Close();
+                    return Total;
+                }
+            }
+            return "Not Available";
+        }
+
+        public string LastService(int tableTag, int ItemSelected,string strconn)
+        {
+            if (tableTag == 3)
+            {
+                string Total;
+                string table = "services";
+                string checkdupes = string.Format("SELECT odometer FROM {0} WHERE vehicle_id = {1} ORDER BY serviced_at DESC LIMIT 1", table, ItemSelected);
+                using (connection = new MySqlConnection(strconn))
+                {
+                    connection.Open();
+                    using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
+                    {
+                        Total = sqlCommand.ExecuteScalar().ToString();
+                    }
+                    connection.Close();
+                    return Total;
+                }
+            }
+            return "Not Available";
+        }
+
+        public string totalFilled(int tableTag, int ItemSelected, string strconn)
+        {
+            if (tableTag == 1)
+            {
+                string Total;
+                string table = "fuel";
+                string checkdupes = string.Format("SELECT SUM(amount) FROM {0} WHERE vehicle_id = {1}", table, ItemSelected);
+                using (connection = new MySqlConnection(strconn))
+                {
+                    connection.Open();
+                    using (MySqlCommand sqlCommand = new MySqlCommand(checkdupes, connection))
+                    {
+                        Total = sqlCommand.ExecuteScalar().ToString();
+                    }
+                    connection.Close();
+                    return Total;
+                }
+            }
+            return "Not Available";
         }
     }
 }
