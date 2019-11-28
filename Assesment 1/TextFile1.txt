@@ -1,0 +1,9 @@
+﻿Add Class for Rental
+
+Code the TODO tasks
+
+Make Functionally usefull
+
+Need to add git ingnore file
+
+User interface

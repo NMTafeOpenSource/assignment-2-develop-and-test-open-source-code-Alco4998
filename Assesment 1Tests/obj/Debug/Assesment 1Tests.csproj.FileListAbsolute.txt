@@ -1,0 +1,26 @@
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\obj\Debug\Assesment 1Tests.csprojAssemblyReference.cache
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\obj\Debug\Assesment 1Tests.csproj.CoreCompileInputs.cache
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Assesment 1Tests.dll.config
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Assesment 1Tests.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Assesment 1Tests.pdb
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Assesment 1.exe
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Google.Protobuf.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\MySql.Data.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Renci.SshNet.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Assesment 1.pdb
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Assesment 1.exe.config
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Google.Protobuf.pdb
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Google.Protobuf.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\MySql.Data.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\bin\Debug\Renci.SshNet.xml
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\obj\Debug\Assesment 1Tests.csproj.CopyComplete
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\obj\Debug\Assesment 1Tests.dll
+C:\Users\20025284\Documents\GitHub\assignment-2-develop-and-test-open-source-code-Alco4998\Assesment 1Tests\obj\Debug\Assesment 1Tests.pdb
